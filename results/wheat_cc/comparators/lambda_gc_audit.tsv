@@ -1,0 +1,5 @@
+method	df	n_valid	lambda_gc	calculation	status
+mixfunmap_lop4_BIC	5	18583	0.906988927286898	median(raw 5-df Wald) / median(chi-square_5)	valid single-df-family calculation
+ordinary_funmap_lop4	5	17885	1.24957080620094	median(raw 5-df statistic) / median(chi-square_5)	reported separately because marker df varies with retained genotype groups
+ordinary_funmap_lop4	10	698	1.21062068564022	median(raw 10-df statistic) / median(chi-square_10)	reported separately because marker df varies with retained genotype groups
+minp_gmmat	NA	18583	NA	not calculated	not applicable: min(1,39*min p_t) is not a single chi-square statistic; a conventional lambdaGC would be misleading

@@ -1,0 +1,2 @@
+dataset	mode	criterion	selected_degree	test_df	n_samples	n_time_points	n_markers_scanned	full_marker_count	n_valid	n_outer_converged	lambda_gc	lambda_gc_excluding_p_lt_0.01	top_marker	top_chr	top_pos	top_p	genomewide_alpha	n_bonferroni_significant	lambda_gc_df	lambda_gc_method
+FIP1_FPWW012_canopy_cover_lop_v1	full	BIC	4	5	307	39	18583	18583	18583	18583	0.9069889254309094	0.650979678259787	RFL_Contig2772_1693	chr5B	605480892	6.15369864633075e-08	2.6906312220847e-06	2	5	median Wald statistic / median chi-square(test_df)
