@@ -14,7 +14,7 @@ mixFunMap manuscript. Each script has two parts:
 
 ```
 real_data/
-├── 01_simulation.R            # Formal V15 logistic simulation (Figure 1, S1–S5)
+├── 01_simulation.R            # Formal logistic simulation (Figure 1, S1–S2)
 ├── 02_wheat_height.R          # FIP1 wheat plant-height GWAS (Figure 2)
 ├── 03_staph_mic0.R            # S. aureus MIC=0 growth-curve GWAS (Figure 3)
 ├── 04_rice_diversity.R              # Rice RIL two-environment analysis (Figure 4)
@@ -73,18 +73,6 @@ replicate counts for a pilot run (e.g. `full 4 2 1`).
   `./mixFunMap`, installed or on `.libPaths`) and the `GMMAT` package
   (minP benchmark).
 
-## Model and threshold summary
-
-| Analysis | Mean curve | mixFunMap setting | Thresholds |
-|---|---|---|---|
-| Simulation (V15) | Three-parameter logistic (1, 0.65, 7) | 3-df P3D Wald, fixed-τ² null | 0.05/m |
-| Wheat height | Three-parameter logistic | Q = PC1–5 + VanRaden K, 3-df P3D Wald | Bonferroni 0.05/M_eff = 1.53e-5 (M_eff = 3,270); suggestive 1/M = 5.38e-5 (M = 18,583) |
-| S. aureus MIC=0 | Standard logistic | Q = PC1–3 + K, 3-df P3D Wald | Bonferroni 0.05/M; suggestive 1/M |
-| Rice RIL | Three-parameter logistic (single environment) / joint G×E | 3-df Wald per environment; joint `fit_mixfunmap_joint` 3-df Wald | Bonferroni 0.05/M_eff (M_eff = 6,904); suggestive 1/M (M = 33,697) |
-| Wheat canopy cover | LOP (degree 4 by BIC) | Q = PC1–5 + K, 5-df P3D Wald | Same as wheat height |
-
-The header of each script documents the exact model specification, QC steps
-and data provenance for that analysis.
 
 ## Data sources
 
@@ -92,7 +80,7 @@ and data provenance for that analysis.
   90K SNP array.
 - **S. aureus**: 99 strains, growth curves at 14 time points under MIC = 0
   (raw growdata / snpdata / FASTSTRUCTURE csv files).
-- **Rice**: RiceCGM/RDP1 RIL population (349 lines, 21 days, 33,697 markers,
+- **Rice**: RiceCGM/RDP1 population (349 lines, 21 days, 33,697 markers,
   control and low-water environments).
 - **Simulation**: manuscript V15 configuration (P3D-Wald, relative-QTL
   direction (1, 1, −1), K-neutral causal markers, n = 100, target family
