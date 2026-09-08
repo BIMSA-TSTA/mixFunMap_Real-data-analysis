@@ -1,0 +1,2 @@
+method	markers_scanned	valid_p_values	top_marker	minimum_p	lambda_gc	test_df	runtime_sec
+mixed_logistic_qk	33697	33697	id3017084	4.61507640292461e-08	0.910080640475318	3	1395.29

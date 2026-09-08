@@ -1,0 +1,4 @@
+component	markers	valid	valid_rate	lambda_calibration	hard_pass	advisory	overall_decision
+joint_null	NA	NA	NA	NA	TRUE	null converged without variance boundary	FULL_SCAN_COMPLETED
+minp	33697	33697	1	1.32751036668825	TRUE	minP lambda is descriptive because time Bonferroni is conservative; runtime_sec=0.1	FULL_SCAN_COMPLETED
+parameter_gxe	33697	33696	0.999970323767694	0.808071144949169	TRUE	target valid rate >=0.95; lambda 0.85--1.15 is advisory; runtime_sec=112873	FULL_SCAN_COMPLETED
