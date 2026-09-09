@@ -88,7 +88,10 @@ run_analysis <- function(output_dir = file.path(results_dir, "rerun"),
     inputs_dir, "analysis_inputs_FPWW012_height_ordinary3class_v2.rds"
   ))
   geno_hardcall <- as.matrix(ordinary_inputs$geno_hardcall)
-  genomewide_alpha <- 0.05 / nrow(geno)
+  # Use the same LD-aware threshold as the manuscript figures.
+  thresholds <- readRDS(thresholds_path)
+  primary_threshold <- thresholds$thresholds[[paste0("meff_r2_", thresholds$primary_r2)]]
+  genomewide_alpha <- primary_threshold$threshold
 
   ## 1. mixFunMap: logistic Q + K null, then a 3-df P3D Wald scan ----------
   fit <- mixFunMap::fit_mixfunmap(

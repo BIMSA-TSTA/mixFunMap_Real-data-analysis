@@ -52,6 +52,7 @@ figure_dir <- file.path(script_dir, "figures")
 pheno_path <- file.path(
   results_dir, "phenotype_canopy_cover_FPWW012_matrix.tsv.gz"
 )
+thresholds_path <- file.path(script_dir, "results", "wheat_height", "thresholds.rds")
 
 # ---------------------------------------------------------------------------
 # Part 1: analysis (only runs in mode = "full")
@@ -86,7 +87,10 @@ run_analysis <- function(output_dir = file.path(results_dir, "rerun"),
     script_dir, "inputs", "wheat_height",
     "analysis_inputs_FPWW012_height_ordinary3class_v2.rds"
   ))$geno_hardcall)
-  genomewide_alpha <- 0.05 / nrow(geno)
+  # Share the height analysis thresholds for the same wheat marker panel.
+  thresholds <- readRDS(thresholds_path)
+  primary_threshold <- thresholds$thresholds[[paste0("meff_r2_", thresholds$primary_r2)]]
+  genomewide_alpha <- primary_threshold$threshold
 
   ## 1. mixFunMap LOP: BIC degree selection on the mean curve, then the
   ##    Q + K null fit and the 5-df P3D Wald scan --------------------------
@@ -251,7 +255,11 @@ run_analysis <- function(output_dir = file.path(results_dir, "rerun"),
       lambda_gc = lambda_of(table_mixfunmap$pval, fit$mean$npar),
       top_marker = table_mixfunmap$marker[which.min(table_mixfunmap$pval)],
       top_p = min(table_mixfunmap$pval, na.rm = TRUE),
-      genomewide_alpha = genomewide_alpha
+      genomewide_alpha = genomewide_alpha,
+      n_bonferroni_significant = with(table_mixfunmap, sum(
+        is.finite(pval) & pval > 0 & pval < genomewide_alpha &
+          converged & outer_converged, na.rm = TRUE
+      ))
     ),
     file.path(output_dir, "analysis_summary.tsv")
   )
@@ -284,7 +292,7 @@ if (identical(mode, "full")) {
   comparators_dir <- file.path(out, "comparators")
 }
 
-for (path in c(results_dir, pheno_path,
+for (path in c(results_dir, pheno_path, thresholds_path,
                file.path(results_dir, "analysis_summary.tsv"),
                file.path(comparators_dir, "ordinary_funmap_lop4_results.tsv.gz"),
                file.path(comparators_dir, "minp_gmmat_results.tsv.gz"),
@@ -474,8 +482,10 @@ make_panel_b <- function() {
 # red and labelled (same style as Figure 2c).
 # ---------------------------------------------------------------------------
 
-M <- nrow(scan_mixfunmap)
-M_eff <- 3270L
+thresholds <- readRDS(thresholds_path)
+primary_threshold <- thresholds$thresholds[[paste0("meff_r2_", thresholds$primary_r2)]]
+M <- thresholds$M
+M_eff <- primary_threshold$M_eff
 threshold_lines <- data.frame(
   name = factor(
     c(sprintf("Bonferroni (0.05/M_eff = 0.05/%d)", M_eff),
@@ -483,7 +493,7 @@ threshold_lines <- data.frame(
     levels = c(sprintf("Bonferroni (0.05/M_eff = 0.05/%d)", M_eff),
                sprintf("Suggestive (1/M = 1/%d)", M))
   ),
-  y = -log10(c(0.05 / M_eff, 1 / M))
+  y = -log10(c(primary_threshold$threshold, thresholds$thresholds$suggestive$threshold))
 )
 threshold_colors <- stats::setNames(c("#D62728", "#7F7F7F"),
                                     levels(threshold_lines$name))

@@ -1,22 +1,22 @@
 #!/usr/bin/env Rscript
 
-# 04_rice_ril.R — Rice RIL (RiceCGM/RDP1) two-environment mixFunMap
+# 04_rice_diversity.R — Rice Diversity Panel 1 (RiceCGM/RDP1) two-environment mixFunMap
 # analysis (reproduction script for the mixFunMap manuscript).
 #
 # Two parts:
 #   1. Analysis (mode = "full"): reruns the three scans from the prepared
-#      inputs in inputs/rice_ril/ (349 RILs, 21 days, 33,697 markers):
+#      inputs in inputs/rice_diversity/ (349 accessions, 21 days, 33,697 markers):
 #      single-environment logistic mixFunMap scans for Control and Low
 #      water (plus ordinary-FunMap and GMMAT-minP benchmarks) and the
 #      joint two-environment 3-df parameter G x E scan, following
 #      ril/scripts/run_lowwater_logistic_three_methods.R and
 #      ril/scripts/run_ricecgm_joint_gxe_pilot.R (full mode).
 #   2. Figures (default): redraws every manuscript panel (a-k) from the
-#      frozen outputs in results/rice_ril/ without refitting any model.
+#      frozen outputs in results/rice_diversity/ without refitting any model.
 #
 # Usage:
-#   Rscript 04_rice_ril.R            # figures only (fast; default)
-#   Rscript 04_rice_ril.R full [cores] [output_dir]
+#   Rscript 04_rice_diversity.R            # figures only (fast; default)
+#   Rscript 04_rice_diversity.R full [cores] [output_dir]
 #
 # Model specification (identical to the manuscript):
 #   * Phenotypes: per-environment sample means, analysed at scale x1e-5.
@@ -48,8 +48,8 @@ script_dir <- if (length(file_argument)) {
   normalizePath(getwd(), winslash = "/", mustWork = TRUE)
 }
 
-inputs_dir <- file.path(script_dir, "inputs", "rice_ril")
-benchmark_dir <- file.path(script_dir, "results", "rice_ril")
+inputs_dir <- file.path(script_dir, "inputs", "rice_diversity")
+benchmark_dir <- file.path(script_dir, "results", "rice_diversity")
 figure_dir <- file.path(script_dir, "figures")
 
 control_dir <- file.path(benchmark_dir, "control")
